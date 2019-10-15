@@ -12,10 +12,9 @@ def order_list():
 
 
 @api.route('/order/add/', methods=['POST'])
-@login(verify=1)
+@login()
 def order_add():
     """添加订单
-    验证厂家是否属于通过审核的厂家
     :return:
     """
 

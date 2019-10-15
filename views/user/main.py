@@ -1,3 +1,4 @@
+import time
 from flask import g
 from views.user import api
 from init import Redis
@@ -26,12 +27,16 @@ def sign_in():
 @auth.login_required
 def refresh_token():
     """刷新token"""
-    # iat = g.token_payload.get('iat')
-    # if time.time() - time.mktime(time.localtime(iat)) > 6000:
-    #     user = User.query.filter_by(id=g.user['id']).first()
-    #     return common.result_format(data={'token': user.generate_token(), 'user_info': user.info()})
-    # else:
-    #     return common.result_format(error_code=4008, message='token refresh failure!')
+
+    day = 20
+
+    iat = g.user.get('iat')
+
+    if time.time() - time.mktime(time.localtime(iat)) > (60 * 60 * 24 * day):
+        user = Factory.query.filter_by(uuid=g.user.uuid).first_or_404()
+        return result_format(data={'token': user.generate_token(), 'user_info': user.serialization()})
+    else:
+        return result_format(error_code=4008, message='token刷新失败,有效期还长着呢.')
 
 
 @api.route('/registered/', methods=['POST'])
@@ -57,19 +62,15 @@ def registered():
 @login()
 def factory_info():
     """厂家信息查询"""
-    user = Factory.query.filter_by(uuid=2333).first_or_404()
-    if user:
-        return result_format(data=user.serialization())
-    else:
-        return result_format(error_code=4001, message='用户信息不存在!')
+    user = Factory.query.filter_by(uuid=g.user.uuid).first_or_404()
+    return result_format(data=user.serialization())
 
 
 @api.route('/factory/info/edit/', methods=['POST'])
 @login()
 def factory_info_edit():
     """厂家信息修改"""
-    user = Factory.query.filter_by(uuid=2333).first_or_404()
+    user = Factory.query.filter_by(uuid=g.user.uuid).first_or_404()
     form = user_form.FactoryEditForm(user=user).validate_()
-    #
-    # user.set_attrs(form.data).direct_update_()
-    # return common.result_format(data=user.info(remove={'genre'}))
+    user.set_attrs(form.data).direct_update_()
+    return result_format()
