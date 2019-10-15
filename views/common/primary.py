@@ -6,13 +6,8 @@ from init import client, Redis, sms, cos_sts
 from forms.common.primary import SMSCodeForm
 from models.HYModels.common import Images
 from plugins.HYplugins.common import ordinary
-from plugins.HYplugins.common.authorization import login, auth
+from plugins.HYplugins.common.authorization import auth
 from plugins.HYplugins.error import ViewException
-
-
-@api.route('/user/list/')
-def user_list():
-    """用户列表"""
 
 
 @api.route('/upload_url/')

@@ -1,9 +1,13 @@
 import wtforms
 import json
 from wtforms.validators import DataRequired, Length
-from plugins.HYplugins.form.primary import BaseForm, JsonField
+from plugins.HYplugins.form.primary import BaseForm, JsonField, ListPage
 from models.HYModels.business import Order
 from forms.business.fields import *
+
+
+class OrderListForm(BaseForm, ListPage):
+    """订单列表"""
 
 
 class OrderAddForm(BaseForm, DescriptionField, ImagesField, DateField, TimeField):
@@ -12,10 +16,6 @@ class OrderAddForm(BaseForm, DescriptionField, ImagesField, DateField, TimeField
 
 class OrderEditForm(OrderAddForm, OrderIdField):
     """订单编辑"""
-
-    # def __init__(self, factory_uuid, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.uuid = factory_uuid
 
 
 class OrderInfoForm(BaseForm, OrderIdField):
