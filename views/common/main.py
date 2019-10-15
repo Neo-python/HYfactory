@@ -4,6 +4,7 @@ from flask import request, g
 from views.common import api
 from init import client, Redis, sms, cos_sts
 from forms.common.main import SMSCodeForm
+from models.HYModels.common import Images
 from plugins.HYplugins.common import ordinary
 from plugins.HYplugins.common.authorization import login, auth
 from plugins.HYplugins.error import ViewException
@@ -18,17 +19,17 @@ def user_list():
 @auth.login_required
 def upload_url():
     """获取上传图片授权地址"""
-    # genre = request.args.get('genre', default=None)
-    # suffix = request.args.get('suffix', default=None)
-    #
-    # if not genre and not suffix:
-    #     raise ViewException(error_code=4005, message='<genre>图片用途类型或<suffix>图片文件类型,不能为空.')
-    # name = uuid.uuid1().hex
-    # path = f'/test/{name}.{suffix}'
-    # url = client.get_presigned_url(config.Bucket, path, Method='POST')
-    # image_url = f'{config.cos_base_url}{path}'
-    # Images(user_id=g.user['id'], url=image_url, genre=genre, status=0).direct_commit_()
-    # return common.result_format(data={'upload_url': url, 'image_url': image_url})
+    genre = request.args.get('genre', default=None)
+    suffix = request.args.get('suffix', default=None)
+
+    if not genre and not suffix:
+        raise ViewException(error_code=4005, message='<genre>图片用途类型或<suffix>图片文件类型,不能为空.')
+    name = uuid.uuid1().hex
+    path = f'/test/{name}.{suffix}'
+    url = client.get_presigned_url(config.Bucket, path, Method='POST')
+    image_url = f'{config.cos_base_url}{path}'
+    Images(user_id=g.user['id'], url=image_url, genre=genre, status=0).direct_commit_()
+    return ordinary.result_format(data={'upload_url': url, 'image_url': image_url})
 
 
 @api.route('/upload_credentials/')
