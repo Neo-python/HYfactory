@@ -3,6 +3,7 @@ import uuid
 from flask import request, g
 from views.common import api
 from init import client, Redis, sms, cos_sts
+from forms.common.main import SMSCodeForm
 from plugins.HYplugins.common import ordinary
 from plugins.HYplugins.common.authorization import login, auth
 from plugins.HYplugins.error import ViewException
@@ -47,10 +48,13 @@ def send_sms():
     """发送短信接口
     params:统一规范 验证码 + 时效(分钟)
     """
-    # form = validators.SMSCodeForm().validate_()
-    # code = ordinary.generate_verify_code()
-    # key = f'validate_phone_{form.genre.data}_{form.phone_number.data}'
-    # Redis.set(key, code, ex=3000)  # 设置缓存
-    # sms.send(template_id=config.SMS_TEMPLATE_REGISTERED[form.genre.data], phone_number=form.phone_number.data,
-    #          params=[code, 5])
-    # return ordinary.result_format()
+    sms_validity_period = 5
+
+    form = SMSCodeForm().validate_()
+    code = ordinary.generate_verify_code()
+    key = f'validate_phone_{form.genre.data}_{form.phone.data}'
+    Redis.set(key, code, ex=60 * sms_validity_period)  # 设置缓存
+    sms.send(template_id=config.SMS_TEMPLATE_REGISTERED[form.genre.data], phone_number=form.phone.data,
+             sms_sign='台州海嘉粤运输有限公司',
+             params=[code, sms_validity_period])
+    return ordinary.result_format()

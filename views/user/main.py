@@ -2,6 +2,8 @@ import time
 from views.user import api
 from plugins.HYplugins.common import result_format
 from plugins.HYplugins.common.authorization import login, auth
+from models.user import Factory
+from forms.user.main import RegisteredForm
 from init import wechat_api
 
 
@@ -35,6 +37,11 @@ def refresh_token():
 @api.route('/registered/', methods=['POST'])
 def registered():
     """注册成为厂家"""
+    form = RegisteredForm().validate_()
+    data = form.data
+    data.pop('code')
+    Factory(**data).direct_commit_()
+    return result_format()
 
 
 @api.route('/factory/info/')

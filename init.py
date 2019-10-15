@@ -28,9 +28,17 @@ wechat_api = wechat.WechatApi(app_id=config.APP_ID, app_secret=config.APP_SECRET
 pool = redis.ConnectionPool(host=config.REDIS_HOST, port=config.REDIS_PORT, db=config.REDIS_DB, decode_responses=True)
 Redis = redis.StrictRedis(connection_pool=pool)
 
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
+
+
 def register_blueprint(app):
     """注册蓝图"""
     from views.user import api
+    app.register_blueprint(api)
+
+    from views.common import api
     app.register_blueprint(api)
 
 
