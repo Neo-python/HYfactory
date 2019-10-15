@@ -11,15 +11,15 @@ from forms.user.main import RegisteredForm
 def sign_in():
     """登录"""
     # open_id = wechat_api.get_open_id()
+    open_id = 'xxxneoxxx1'
     #
-    # user = User.query.filter_by(open_id=open_id).first()
+    user = Factory.query.filter_by(open_id=open_id).first()
     #
-    # if user and user.genre is not None:  # 用户信息存在,并且用户类型已经选择
-    #
-    #     return common.result_format(data={'token': user.generate_token(), 'user_info': user.info()})
-    # else:
-    #     return common.result_format(error_code=4001, message='客户未注册', data={'open_id': open_id})
-    return result_format()
+    if user:  # 用户信息存在,并且用户类型已经选择
+
+        return result_format(data={'token': user.generate_token(), 'user_info': user.serialization()})
+    else:
+        return result_format(error_code=4001, message='客户未注册', data={'open_id': open_id})
 
 
 @api.route('/refresh_token/')
@@ -57,9 +57,11 @@ def registered():
 @login()
 def factory_info():
     """厂家信息查询"""
-    user = Factory.query.filter_by(id=g.user['id']).first_or_404()
-    remove = {''}
-    return result_format(data=user.serialization())
+    user = Factory.query.filter_by(uuid=g.user.uuid).first()
+    if user:
+        return result_format(data=user.serialization())
+    else:
+        return result_format(error_code=4001, message='用户信息不存在!')
 
 
 @api.route('/factory/info/edit/', methods=['POST'])
