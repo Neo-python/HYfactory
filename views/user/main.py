@@ -3,9 +3,8 @@ from views.user import api
 from init import Redis
 from plugins.HYplugins.common import result_format
 from plugins.HYplugins.common.authorization import login, auth
-from models.user import Factory
+from models.HYModels.user import Factory
 from forms.user.main import RegisteredForm
-from init import wechat_api
 
 
 @api.route('/sign_in/', methods=['POST'])
