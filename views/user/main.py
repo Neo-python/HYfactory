@@ -4,7 +4,7 @@ from init import Redis
 from plugins.HYplugins.common import result_format
 from plugins.HYplugins.common.authorization import login, auth
 from models.HYModels.user import Factory
-from forms.user.main import RegisteredForm
+from forms.user import main as user_form
 
 
 @api.route('/sign_in/', methods=['POST'])
@@ -41,7 +41,7 @@ def registered():
     :return:
     """
 
-    form = RegisteredForm().validate_()
+    form = user_form.RegisteredForm().validate_()
 
     # 表单验证成功,处理redis与表单数据,创建账号
     data = form.data
@@ -57,7 +57,7 @@ def registered():
 @login()
 def factory_info():
     """厂家信息查询"""
-    user = Factory.query.filter_by(uuid=g.user.uuid).first()
+    user = Factory.query.filter_by(uuid=2333).first_or_404()
     if user:
         return result_format(data=user.serialization())
     else:
@@ -68,8 +68,8 @@ def factory_info():
 @login()
 def factory_info_edit():
     """厂家信息修改"""
-    # user = User.query.filter_by(id=g.user['id']).first_or_404()
-    # form = validators.FactoryEditForm(user=user).validate_()
+    user = Factory.query.filter_by(uuid=2333).first_or_404()
+    form = user_form.FactoryEditForm(user=user).validate_()
     #
     # user.set_attrs(form.data).direct_update_()
     # return common.result_format(data=user.info(remove={'genre'}))

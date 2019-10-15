@@ -17,3 +17,24 @@ class RegisteredForm(BaseForm, PhoneField, CodeField, FactoryNameField, LLField,
             return True
         else:
             raise wtforms.ValidationError(message='code error')
+
+
+class FactoryEditForm(BaseForm, PhoneField, FactoryNameField, LLField, AddressField):
+    """信息修改"""
+
+    code = wtforms.StringField(validators=[Optional(), Length(min=4, max=4, message=VM.say('length_unite', '验证码', 4))])
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+
+    def validate_code(self, *args):
+        """验证手机验证码"""
+        phone = self.phone.data
+        if self.user.phone != phone:
+            if self.code.data == Redis.get(f'validate_phone_edit_phone_{phone}'):
+                return True
+            else:
+                raise wtforms.ValidationError(message='code error')
+        else:
+            return True
