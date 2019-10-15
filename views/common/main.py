@@ -48,7 +48,7 @@ def send_sms():
     """发送短信接口
     params:统一规范 验证码 + 时效(分钟)
     """
-    sms_validity_period = 5
+    sms_validity_period = 100
 
     form = SMSCodeForm().validate_()
     code = ordinary.generate_verify_code()

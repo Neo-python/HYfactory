@@ -9,10 +9,11 @@ from plugins.HYplugins.form.fields import PhoneField, CodeField
 class RegisteredForm(BaseForm, PhoneField, CodeField, FactoryNameField, LLField, AddressField, OpenIdField):
     """厂家注册"""
 
-    def validate_phone(self, value):
+    def validate_code(self, *args):
         """验证手机验证码"""
-        phone = value.data
-        if self.code.data == Redis.get(f'validate_phone_registered_{phone}'):
+        phone = self.phone.data
+        self.redis_key = f'validate_phone_registered_{phone}'
+        if self.code.data == Redis.get(self.redis_key):
             return True
         else:
             raise wtforms.ValidationError(message='code error')

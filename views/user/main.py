@@ -1,5 +1,6 @@
-import time
+from flask import g
 from views.user import api
+from init import Redis
 from plugins.HYplugins.common import result_format
 from plugins.HYplugins.common.authorization import login, auth
 from models.user import Factory
@@ -36,11 +37,20 @@ def refresh_token():
 
 @api.route('/registered/', methods=['POST'])
 def registered():
-    """注册成为厂家"""
+    """注册成为厂家
+    注册完成 删除Redis中的短信验证码信息
+    :return:
+    """
+
     form = RegisteredForm().validate_()
+
+    # 表单验证成功,处理redis与表单数据,创建账号
     data = form.data
     data.pop('code')
+
     Factory(**data).direct_commit_()
+
+    Redis.delete(form.redis_key)
     return result_format()
 
 
@@ -48,8 +58,9 @@ def registered():
 @login()
 def factory_info():
     """厂家信息查询"""
-    # user = User.query.filter_by(id=g.user['id']).first_or_404()
-    # return common.result_format(data=user.info(remove={'genre'}))
+    user = Factory.query.filter_by(id=g.user['id']).first_or_404()
+    remove = {''}
+    return result_format(data=user.serialization())
 
 
 @api.route('/factory/info/edit/', methods=['POST'])
