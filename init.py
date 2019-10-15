@@ -3,8 +3,9 @@ import config
 import logging
 from flask import Flask
 from pymysql import install_as_MySQLdb
-from plugins.HYplugins.sms.main import SMS
-from plugins.HYplugins.orm.main import db
+from plugins.HYplugins.sms import SMS
+from plugins.HYplugins.orm import db
+from plugins.HYplugins import wechat
 from sts.sts import Sts
 from qcloud_cos import CosConfig
 from qcloud_cos import CosS3Client
@@ -20,10 +21,14 @@ cos_config = CosConfig(Region=config.region, SecretId=config.SecretId, SecretKey
 client = CosS3Client(cos_config)
 # cos token
 cos_sts = Sts(config.sts_config)
+# 微信
+wechat_api = wechat.WechatApi(app_id=config.APP_ID, app_secret=config.APP_SECRET)
 
 
 def register_blueprint(app):
     """注册蓝图"""
+    from views.user import api
+    app.register_blueprint(api)
 
 
 def create_app():
