@@ -3,7 +3,7 @@ import uuid
 from flask import request, g
 from views.common import api
 from init import client, Redis, sms, cos_sts
-from forms.common.main import SMSCodeForm
+from forms.common.primary import SMSCodeForm
 from models.HYModels.common import Images
 from plugins.HYplugins.common import ordinary
 from plugins.HYplugins.common.authorization import login, auth
@@ -56,6 +56,5 @@ def send_sms():
     key = f'validate_phone_{form.genre.data}_{form.phone.data}'
     Redis.set(key, code, ex=60 * sms_validity_period)  # 设置缓存
     sms.send(template_id=config.SMS_TEMPLATE_REGISTERED[form.genre.data], phone_number=form.phone.data,
-             sms_sign='台州海嘉粤运输有限公司',
-             params=[code, sms_validity_period])
+             sms_sign='台州海嘉粤运输有限公司', params=[code, sms_validity_period])
     return ordinary.result_format()
