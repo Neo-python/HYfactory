@@ -73,4 +73,5 @@ def factory_info_edit():
     user = Factory.query.filter_by(uuid=g.user.uuid).first_or_404()
     form = forms.FactoryEditForm(user=user).validate_()
     user.set_attrs(form.data).direct_update_()
+    Redis.delete(form.redis_key)
     return result_format()

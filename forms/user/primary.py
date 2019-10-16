@@ -28,11 +28,13 @@ class FactoryEditForm(BaseForm, PhoneField, FactoryNameField, LLField, AddressFi
         super().__init__(*args, **kwargs)
         self.user = user
 
-    def validate_code(self, *args):
+    def validate_phone(self, *args):
         """验证手机验证码"""
         phone = self.phone.data
+        self.redis_key = f'validate_phone_edit_phone_{self.user.phone}'
+
         if self.user.phone != phone:
-            if self.code.data == Redis.get(f'validate_phone_edit_phone_{phone}'):
+            if self.code.data == Redis.get(self.redis_key):
                 return True
             else:
                 raise wtforms.ValidationError(message='code error')
