@@ -3,7 +3,7 @@ from wtforms.validators import DataRequired, Length, NumberRange, InputRequired,
 from init import Redis
 from forms.fields.primary import *
 from plugins.HYplugins.form import BaseForm
-from plugins.HYplugins.form.fields import PhoneField, CodeField
+from plugins.HYplugins.form.fields import PhoneField, CodeField, OpenIdField
 
 
 class RegisteredForm(BaseForm, PhoneField, CodeField, FactoryNameField, LLField, AddressField, OpenIdField):
