@@ -4,7 +4,7 @@ from views.user import api
 from init import Redis
 from plugins.HYplugins.common import result_format
 from plugins.HYplugins.common.authorization import login, auth
-from models.HYModels.user import Factory
+from models.user import Factory
 from forms import user as forms
 
 

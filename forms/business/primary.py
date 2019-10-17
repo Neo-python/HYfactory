@@ -2,7 +2,7 @@ import wtforms
 import json
 from wtforms.validators import DataRequired, Length
 from plugins.HYplugins.form.primary import BaseForm, JsonField, ListPage
-from models.HYModels.business import Order
+from models.business import Order
 from forms.business.fields import *
 
 

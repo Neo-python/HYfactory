@@ -4,7 +4,7 @@ from flask import g
 from wtforms.validators import DataRequired, Length, NumberRange, InputRequired, Optional
 from plugins.HYplugins.form.validators_message import ValidatorsMessage as VM
 from plugins.HYplugins.form.primary import JsonField
-from models.HYModels.business import Order
+from models.business import Order
 
 
 class DescriptionField:

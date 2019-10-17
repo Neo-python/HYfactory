@@ -4,7 +4,7 @@ from views.business import api
 from forms.business import primary as forms
 from plugins.HYplugins.common.authorization import login
 from plugins.HYplugins.common import result_format, paginate_info
-from models.HYModels.business import Order
+from models.business import Order
 
 
 @api.route('/order/list/')
