@@ -2,7 +2,7 @@ import wtforms
 import json
 from wtforms.validators import DataRequired, Length
 from plugins.HYplugins.form.primary import BaseForm, JsonField, ListPage
-from models.business import Order
+from forms.fields.primary import LLField
 from forms.business.fields import *
 
 
@@ -10,11 +10,11 @@ class OrderListForm(BaseForm, ListPage):
     """订单列表"""
 
 
-class OrderAddForm(BaseForm, DescriptionField, ImagesField, DateField, TimeField):
+class OrderAddForm(BaseForm, DescriptionField, ImagesField, DateField, TimeField, LLField):
     """添加订单"""
 
 
-class OrderEditForm(OrderAddForm, OrderIdField):
+class OrderEditForm(OrderAddForm, OrderIdField, LLField):
     """订单编辑"""
 
 
