@@ -15,7 +15,7 @@ def sign_in():
     form = forms.SignInForm().validate_()
 
     user = Factory.query.filter_by(open_id=form.open_id).first()
-    #
+
     if user:  # 用户信息存在,并且用户类型已经选择
 
         return result_format(data={'token': user.generate_token(), 'user_info': user.serialization()})
