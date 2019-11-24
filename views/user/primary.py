@@ -51,8 +51,9 @@ def registered():
     # 表单验证成功,处理redis与表单数据,创建账号
     data = form.data
     data.pop('code')
+    data.pop('wechat_code')
 
-    Factory(**data).direct_commit_()
+    Factory(open_id=form.open_id, **data).direct_commit_()
 
     Redis.delete(form.redis_key)
     return result_format()
