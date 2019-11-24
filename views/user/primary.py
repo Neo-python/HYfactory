@@ -13,10 +13,8 @@ from forms import user as forms
 def sign_in():
     """登录"""
     form = forms.SignInForm().validate_()
-    
-    open_id = core_api.get_open_id(code=form.wechat_code.data, port=config.server_port)
 
-    user = Factory.query.filter_by(open_id=open_id).first()
+    user = Factory.query.filter_by(open_id=form.open_id).first()
     #
     if user:  # 用户信息存在,并且用户类型已经选择
 
