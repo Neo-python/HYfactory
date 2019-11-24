@@ -1,3 +1,4 @@
+import config
 import time
 from flask import g
 from views.user import api
@@ -13,7 +14,7 @@ def sign_in():
     """登录"""
     form = forms.SignInForm().validate_()
     print(form.data)
-    open_id = core_api.get_open_id(code=form.wechat_code.data)
+    open_id = core_api.get_open_id(code=form.wechat_code.data, port=config.server_port)
 
     user = Factory.query.filter_by(open_id=open_id).first()
     #
