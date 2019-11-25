@@ -13,15 +13,14 @@ from forms import user as forms
 def sign_in():
     """登录"""
     form = forms.SignInForm().validate_()
-    print(form.open_id)
-    print(Factory.query.first())
+
     user = Factory.query.filter_by(open_id=form.open_id).first()
 
     if user:  # 用户信息存在,并且用户类型已经选择
 
         return result_format(data={'token': user.generate_token(), 'user_info': user.serialization()})
     else:
-        return result_format(error_code=4001, message='客户未注册')
+        return result_format(error_code=4000, message='用户未注册')
 
 
 @api.route('/refresh_token/')
@@ -37,7 +36,7 @@ def refresh_token():
         user = Factory.query.filter_by(uuid=g.user.uuid).first_or_404()
         return result_format(data={'token': user.generate_token(), 'user_info': user.serialization()})
     else:
-        return result_format(error_code=4008, message='token刷新失败,有效期还长着呢.')
+        return result_format(error_code=5009, message='token刷新失败.')
 
 
 @api.route('/registered/', methods=['POST'])

@@ -66,7 +66,7 @@ def order_edit():
 
     # 检查订单状态
     if form.order.schedule != 0:
-        return result_format(error_code=4009, message='订单状态发生改变,订单已被驾驶员接走!')
+        return result_format(error_code=5110, message='订单状态发生改变,订单已被驾驶员接走!')
 
     form.order.set_attrs(form.data)
     form.order.update_time = datetime.datetime.now()
@@ -86,7 +86,7 @@ def order_delete():
 
     # 检查订单状态
     if order.schedule == 1:
-        return result_format(error_code=4009, message='订单已被接走,请联系驾驶员先取消订单.')
+        return result_format(error_code=5110, message='订单已被接走,请联系驾驶员先取消订单.')
     elif order.status == 0:
         return result_format(message='订单已删除,请勿重复请求.')
     else:
