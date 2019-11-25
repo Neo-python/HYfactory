@@ -1,6 +1,6 @@
 """整个项目都会使用到的字段存放在这里"""
 import wtforms
-from wtforms.validators import DataRequired, Length, NumberRange, InputRequired, Optional
+from wtforms.validators import DataRequired, Length
 from plugins.HYplugins.form.validators_message import ValidatorsMessage as VM
 
 

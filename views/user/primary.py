@@ -1,8 +1,7 @@
-import config
 import time
 from flask import g
 from views.user import api
-from init import Redis, core_api
+from init import Redis
 from plugins.HYplugins.common import result_format
 from plugins.HYplugins.common.authorization import login, auth
 from models.user import Factory

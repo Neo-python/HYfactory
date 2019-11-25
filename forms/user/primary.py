@@ -1,4 +1,3 @@
-import wtforms
 from init import Redis
 from forms.fields.primary import *
 from plugins.HYplugins.form import BaseForm
