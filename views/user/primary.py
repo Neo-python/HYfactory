@@ -2,7 +2,7 @@ import time
 from flask import g
 from sqlalchemy.exc import IntegrityError
 from views.user import api
-from init import Redis
+from init import Redis, core_api
 from plugins.HYplugins.common import result_format
 from plugins.HYplugins.common.authorization import login, auth
 from plugins.HYplugins.error import ViewException
@@ -58,7 +58,8 @@ def registered():
         Factory(open_id=form.open_id, **data).direct_commit_()
     except IntegrityError as err:
         raise ViewException(error_code=1001, message="用户已注册,请直接登录!")
-    Redis.delete(form.redis_key)
+    Redis.delete(form.redis_key)  # 删除验证码
+    core_api.notice_sms(template_id="484105", params=[form.name.data])
     return result_format()
 
 
