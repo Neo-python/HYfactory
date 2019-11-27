@@ -58,7 +58,7 @@ def registered():
         Factory(open_id=form.open_id, **data).direct_commit_()
     except IntegrityError as err:
         raise ViewException(error_code=1001, message="用户已注册,请直接登录!")
-    # Redis.delete(form.redis_key)  # 删除验证码
+    Redis.delete(form.redis_key)  # 删除验证码
     core_api.notice_sms(template_id="484105", params=[form.name.data])  # 通知管理员注册完成
     return result_format()
 
