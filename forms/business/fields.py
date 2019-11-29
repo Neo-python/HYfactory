@@ -12,7 +12,7 @@ class DescriptionField:
 
     description = wtforms.StringField(validators=[
         DataRequired(message=VM.say('required', '订单详情')),
-        Length(min=255, message=VM.say('length_unite', '订单详情', 255))
+        Length(min=100, message=VM.say('length_unite', '订单详情', 100))
     ])
 
 
