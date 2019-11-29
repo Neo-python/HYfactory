@@ -19,7 +19,7 @@ class DescriptionField:
 class ContactField:
     """联系人字段"""
     contact = wtforms.StringField(validators=[
-        Length(max=6, message=VM.say('length', '联系人名', 1, 6))
+        Length(max=20, message=VM.say('length', '联系人名', 0, 20))
     ], default=""
     )
 
