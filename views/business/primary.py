@@ -15,15 +15,15 @@ def order_list():
     form = forms.OrderListForm(request.args).validate_()
 
     key_word = request.args.get('key_word')
-    schedule = request.args.get('schedule', type=int, default=None)
+    schedule = request.args.get('schedule', type=int, default=0)
 
     query = Order.query.filter_by(factory_uuid=g.user.uuid)
 
     if key_word:
         query = query.filter(Order.description.ilike(f'%{key_word}%'))
 
-    if schedule is not None:
-        query = query.filter_by(schedule=schedule)
+    if schedule != 0:
+        query = query.filter(Order.schedule >= 1)
 
     paginate = query.paginate(page=form.page.data, per_page=form.limit.data, error_out=False)
 
