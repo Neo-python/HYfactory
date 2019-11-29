@@ -23,7 +23,9 @@ def order_list():
         query = query.filter(Order.description.ilike(f'%{key_word}%'))
 
     if schedule != 0:
-        query = query.filter(Order.schedule >= 1)
+        query = query.filter_by(schedule=2)
+    else:
+        query = query.filter(Order.schedule < 2)
 
     paginate = query.paginate(page=form.page.data, per_page=form.limit.data, error_out=False)
 
