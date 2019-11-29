@@ -1,6 +1,6 @@
 from plugins.HYplugins.form.primary import BaseForm, ListPage
 from plugins.HYplugins.form.fields import PhoneField
-from forms.fields.primary import LLField
+from forms.fields.primary import LLField, AddressField
 from forms.business.fields import *
 
 
@@ -8,11 +8,12 @@ class OrderListForm(BaseForm, ListPage):
     """订单列表"""
 
 
-class OrderAddForm(BaseForm, ContactField, PhoneField, DescriptionField, ImagesField, DateField, TimeField, LLField):
+class OrderAddForm(BaseForm, ContactField, PhoneField, DescriptionField, ImagesField, DateField, TimeField, LLField,
+                   AddressField):
     """添加订单"""
 
 
-class OrderEditForm(OrderAddForm, OrderIdField, LLField):
+class OrderEditForm(OrderAddForm, OrderIdField, LLField, AddressField):
     """订单编辑"""
 
 
