@@ -18,10 +18,10 @@ class DescriptionField:
 
 class ContactField:
     """联系人字段"""
-    name = wtforms.StringField(validators=[
-        DataRequired(message=VM.say('required', '联系人')),
-        Length(max=6, message=VM.say('length', '联系人', 1, 6))
-    ])
+    contact = wtforms.StringField(validators=[
+        Length(max=6, message=VM.say('length', '联系人名', 1, 6))
+    ], default=""
+    )
 
 
 class ImagesField:
