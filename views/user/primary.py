@@ -17,8 +17,7 @@ def sign_in():
 
     user = Factory.query.filter_by(open_id=form.open_id).first()
 
-    if user:  # 用户信息存在,并且用户类型已经选择
-
+    if user:
         return result_format(data={'token': user.generate_token(), 'user_info': user.serialization()})
     else:
         return result_format(error_code=4000, message='用户未注册')
@@ -55,12 +54,12 @@ def registered():
     data.pop('wechat_code')
 
     try:
-        Factory(open_id=form.open_id, **data).direct_commit_()
+        factory = Factory(open_id=form.open_id, **data).direct_commit_()
     except IntegrityError as err:
         raise ViewException(error_code=1001, message="用户已注册,请直接登录!")
     Redis.delete(form.redis_key)  # 删除验证码
     core_api.notice_sms(template_id="484144", params=[form.name.data])  # 通知管理员注册完成
-    return result_format()
+    return result_format(data={'token': factory.generate_token(), 'user_info': factory.serialization()})
 
 
 @api.route('/factory/info/')
