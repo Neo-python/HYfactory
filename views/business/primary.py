@@ -27,6 +27,8 @@ def order_list():
     else:
         query = query.filter(Order.schedule < 2)
 
+    query = query.order_by(Order.id.desc())
+
     paginate = query.paginate(page=form.page.data, per_page=form.limit.data, error_out=False)
 
     data = paginate_info(paginate=paginate, items=[item.factory_serialization() for item in paginate.items])
