@@ -1,5 +1,7 @@
 import datetime
+import config
 from flask import g, request
+from init import core_api
 from views.business import api
 from forms.business import primary as forms
 from plugins.HYplugins.common.authorization import login
@@ -45,6 +47,9 @@ def order_add():
     form = forms.OrderAddForm().validate_()
     order = Order(**form.data, factory_uuid=g.user.uuid).direct_commit_()
 
+    # 通知管理员
+    core_api.notice_sms(template_id=config.SMS_TEMPLATE_REGISTERED['order_notice_manager'],
+                        params=[order.factory.name, order.order_uuid])
     return result_format(data={'order_id': order.id})
 
 
