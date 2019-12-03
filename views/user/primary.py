@@ -20,7 +20,7 @@ def sign_in():
     if user:
         return result_format(data={'token': user.generate_token(), 'user_info': user.serialization()})
     else:
-        return result_format(error_code=4000, message='用户未注册')
+        return result_format(error_code=5011, message='用户未注册')
 
 
 @api.route('/refresh_token/')
