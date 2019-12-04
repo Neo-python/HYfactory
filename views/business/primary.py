@@ -48,9 +48,8 @@ def order_add():
     order = Order(**form.data, factory_uuid=g.user.uuid).direct_commit_()
 
     # 通知管理员
-    result = core_api.notice_sms(template_id=config.SMS_TEMPLATE_REGISTERED['order_notice_manager'],
-                                 params=[order.factory.name, order.order_uuid])
-    print(result)
+    core_api.notice_sms(template_id=config.SMS_TEMPLATE_REGISTERED['order_notice_manager'],
+                        params=[order.factory.name, order.order_uuid])
     return result_format(data={'order_id': order.id})
 
 
