@@ -1,12 +1,12 @@
 import time
 from flask import g
 from sqlalchemy.exc import IntegrityError
+from views import Factory
 from views.user import api
 from init import Redis, core_api
 from plugins.HYplugins.common import result_format
 from plugins.HYplugins.common.authorization import login, auth
 from plugins.HYplugins.error import ViewException
-from models.user import Factory
 from forms import user as forms
 
 
