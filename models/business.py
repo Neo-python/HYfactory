@@ -1,4 +1,4 @@
-from .HYModels import business
+from models.HYModels import business
 
 
 class Order(business.OrderBase):

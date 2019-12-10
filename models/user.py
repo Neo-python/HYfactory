@@ -1,4 +1,4 @@
-from .HYModels import user
+from models.HYModels import user
 
 
 class Factory(user.FactoryBase):
