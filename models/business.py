@@ -1,6 +1,10 @@
 from models.HYModels import business
 
 
+class FactoryContact(business.FactoryContactBase):
+    """厂家订单常用联系人"""
+
+
 class Order(business.OrderBase):
     """厂家订单"""
 

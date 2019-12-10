@@ -29,7 +29,8 @@ def order_list():
     else:
         query = query.filter(Order.schedule < 2)
 
-    query = query.order_by(Order.id.desc())
+    # 订单进度高的优先排序,订单创建时间次级优先排序
+    query = query.order_by(Order.schedule.desc(), Order.id.desc())
 
     paginate = query.paginate(page=form.page.data, per_page=form.limit.data, error_out=False)
 
@@ -46,6 +47,11 @@ def order_add():
     """
     form = forms.OrderAddForm().validate_()
     order = Order(**form.data, factory_uuid=g.user.uuid).direct_commit_()
+
+    # 存入订单基本信息(联系人等信息)
+    order.factory.save_contact(contact_name=order.contact_name, contact_phone=order.contact_phone,
+                               longitude=order.longitude, latitude=order.latitude,
+                               address=order.address, address_replenish=order.address_replenish)
 
     # 通知管理员
     core_api.notice_sms(template_id=config.SMS_TEMPLATE_REGISTERED['order_notice_manager'],

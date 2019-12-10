@@ -8,7 +8,7 @@ class OrderListForm(BaseForm, ListPage):
     """订单列表"""
 
 
-class OrderAddForm(BaseForm, ContactField, PhoneField, DescriptionField, ImagesField, DateField, TimeField, LLField,
+class OrderAddForm(BaseForm, ContactField, DescriptionField, ImagesField, DateField, TimeField, LLField,
                    AddressField):
     """添加订单"""
 
