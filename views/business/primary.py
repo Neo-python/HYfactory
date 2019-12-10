@@ -102,8 +102,6 @@ def order_delete():
     # 检查订单状态
     if order.schedule == 1:
         return result_format(error_code=5110, message='订单已被接走,请联系驾驶员先取消订单.')
-    elif order.status == 0:
-        return result_format(message='订单已删除,请勿重复请求.')
     else:
-        order.delete().direct_update_()
+        order.direct_delete_()
         return result_format(message='订单已删除')
