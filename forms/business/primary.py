@@ -13,13 +13,13 @@ class OrderAddForm(BaseForm, ContactField, DescriptionField, ImagesField, DateFi
     """添加订单"""
 
 
-class OrderEditForm(OrderAddForm, OrderIdField, LLField, AddressField):
+class OrderEditForm(OrderAddForm, OrderUUIdField, LLField, AddressField):
     """订单编辑"""
 
 
-class OrderInfoForm(BaseForm, OrderIdField):
+class OrderInfoForm(BaseForm, OrderUUIdField):
     """订单详情"""
 
 
-class OrderDeleteForm(BaseForm, OrderIdField):
+class OrderDeleteForm(BaseForm, OrderUUIdField):
     """订单删除"""

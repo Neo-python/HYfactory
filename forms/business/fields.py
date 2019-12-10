@@ -45,7 +45,7 @@ class TimeField:
     time = wtforms.TimeField()
 
 
-class OrderIdField:
+class OrderUUIdField:
     """订单编号"""
 
     order_uuid = wtforms.IntegerField(validators=[DataRequired(message=VM.say('required', '订单编号'))])
