@@ -1,6 +1,6 @@
-from init import Redis
 from wtforms.validators import Optional
 from forms.fields.primary import *
+from plugins import Redis
 from plugins.HYplugins.form import BaseForm
 from plugins.HYplugins.form.fields import PhoneField, CodeField, WechatCodeField
 
