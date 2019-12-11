@@ -1,3 +1,4 @@
+import config
 from flask import jsonify
 from plugins import create_app
 from plugins.HYplugins.error import ViewException
@@ -23,4 +24,4 @@ def server_error(error):
 
 
 if __name__ == '__main__':
-    app.run(port=8091, host='127.0.0.1', debug=True)
+    app.run(port=config.server_port, host='127.0.0.1', debug=True)
