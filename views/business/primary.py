@@ -53,9 +53,6 @@ def order_add():
                                longitude=order.longitude, latitude=order.latitude,
                                address=order.address, address_replenish=order.address_replenish)
 
-    # 通知管理员
-    core_api.notice_sms(template_id=config.SMS_TEMPLATE_REGISTERED['order_notice_manager'],
-                        params=[order.factory.name, order.order_uuid])
     return result_format(data={'order_id': order.id})
 
 
