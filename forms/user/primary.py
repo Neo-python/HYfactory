@@ -43,3 +43,11 @@ class FactoryEditForm(BaseForm, PhoneField, FactoryNameField, LLField, AddressFi
                 raise wtforms.ValidationError(message='验证码错误')
         else:
             return True
+
+
+class TokenInternalUse(BaseForm):
+    """token内部调用"""
+    factory_uuid = wtforms.StringField(validators=[
+        DataRequired(message=VM.say('required', '用户编号')),
+        Length(max=40, message=VM.say('length_unite', '用户编号', 40))
+    ])
