@@ -50,3 +50,7 @@ class TokenInternalUse(BaseForm):
     factory_uuid = wtforms.StringField(validators=[
         DataRequired(message=VM.say('required', '用户编号'))
     ])
+
+    random = wtforms.StringField(validators=[
+        DataRequired(message=VM.say('required', '随机码'))
+    ])

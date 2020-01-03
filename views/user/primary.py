@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from views import Factory
 from views.user import api
 from plugins import Redis, core_api
-from plugins.HYplugins.common import result_format
+from plugins.HYplugins.common import result_format, valid_random
 from plugins.HYplugins.common.authorization import login, auth
 from plugins.HYplugins.error import ViewException
 from forms import user as forms
@@ -45,10 +45,11 @@ def token_internal_use():
     参数:
     factory_uuid:str
     """
-    import socket
-    print(socket.gethostbyname(socket.gethostname()))
-    print(request.remote_addr)
     form = forms.TokenInternalUse(request.args).validate_()
+    if valid_random(form.random.data):
+        print("ok")
+    else:
+        print("no")
     return result_format()
 
 
