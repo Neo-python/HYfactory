@@ -45,9 +45,10 @@ def token_internal_use():
     参数:
     factory_uuid:str
     """
+    import socket
+    print(socket.gethostbyname(socket.gethostname()))
+    print(request.remote_addr)
     form = forms.TokenInternalUse(request.args).validate_()
-    print(request.args)
-    print(form.factory_uuid.data)
     return result_format()
 
 
