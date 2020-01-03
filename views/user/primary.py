@@ -1,5 +1,5 @@
 import time
-from flask import g
+from flask import g, request
 from sqlalchemy.exc import IntegrityError
 from views import Factory
 from views.user import api
@@ -37,6 +37,16 @@ def refresh_token():
         return result_format(data={'token': user.generate_token(), 'user_info': user.serialization()})
     else:
         return result_format(error_code=5009, message='token刷新失败.')
+
+
+@api.route('/token/internal_use/')
+def token_internal_use():
+    """token内部调用
+    参数:
+    factory_uuid:str
+    """
+    print(request.url, request.base_url, request.host_url)
+    return result_format()
 
 
 @api.route('/registered/', methods=['POST'])
