@@ -46,11 +46,14 @@ def token_internal_use():
     factory_uuid:str
     """
     form = forms.TokenInternalUse(request.args).validate_()
-    if valid_random(form.random.data):
-        print("ok")
+    if valid_random(form.random.data) is False:
+        return result_format(1001, message='验证码错误')
+
+    factory = Factory.query.filter_by(uuid=form.factory_uuid.data).first()
+    if not factory:
+        return result_format(5011, message='厂家编号错误.')
     else:
-        print("no")
-    return result_format()
+        return result_format(error_code=0, data=factory.generate_token())
 
 
 @api.route('/registered/', methods=['POST'])
