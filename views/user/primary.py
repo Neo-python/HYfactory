@@ -46,7 +46,7 @@ def token_internal_use():
     factory_uuid:str
     """
     form = forms.TokenInternalUse(request.args).validate_()
-    print(request.url, request.base_url, request.host_url)
+    print(request.args)
     print(form.factory_uuid.data)
     return result_format()
 
