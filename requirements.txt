@@ -4,6 +4,7 @@ Click==7.0
 cos-python-sdk-v5==1.7.4
 dicttoxml==1.7.4
 Flask==1.1.1
+Flask-Cors==3.0.8
 Flask-HTTPAuth==3.3.0
 Flask-SQLAlchemy==2.4.1
 Flask-WTF==0.14.2

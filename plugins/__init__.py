@@ -1,6 +1,7 @@
 import config
 import redis
 from flask import Flask
+from flask_cors import CORS
 from pymysql import install_as_MySQLdb
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from plugins.HYplugins.orm import db
@@ -36,6 +37,7 @@ def register_blueprint(app):
 
 def create_app():
     app = Flask(__name__)
+    cors = CORS(app, resources={r"/": {"origins": "*"}})
     app.config.from_object('config')
     register_blueprint(app)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
