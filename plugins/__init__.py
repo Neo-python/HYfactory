@@ -37,7 +37,7 @@ def register_blueprint(app):
 
 def create_app():
     app = Flask(__name__)
-    CORS(app, resources={r"/": {"origins": "*"}})
+    CORS(app, supports_credentials=True)
     app.config.from_object('config')
     register_blueprint(app)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
