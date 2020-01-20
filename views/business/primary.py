@@ -91,7 +91,7 @@ def order_delete():
     """厂家订单删除
     当订单处于被接单的状态时,无法删除订单,并提示厂家联系驾驶员先取消订单.
     """
-    form = forms.OrderDeleteForm(request.args).validate_()
+    form = forms.OrderDeleteForm(request.form).validate_()
     order = form.order
 
     # 检查订单状态
