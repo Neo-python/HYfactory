@@ -1,4 +1,5 @@
 import datetime
+import json
 from flask import g, request
 from views import Order
 from views.business import api
@@ -91,9 +92,15 @@ def order_delete():
     """厂家订单删除
     当订单处于被接单的状态时,无法删除订单,并提示厂家联系驾驶员先取消订单.
     """
-    form = forms.OrderDeleteForm(request.form).validate_()
-    order = form.order
+    # form = forms.OrderDeleteForm(request.form).validate_()
+    # order = form.order
+    order_uuid = request.get_json(force=True).get('order_uuid', '')
 
+    factory_uuid = g.user.uuid
+    query = Order.query.with_for_update(of=Order)  # 指明上锁的表为Order, 如果不指明, 则查询中涉及的所有表(行)都会加锁.
+    order = query.filter_by(order_uuid=order_uuid, factory_uuid=factory_uuid).first()
+    if not order:
+        return result_format(1001, message='订单编号错误')
     # 检查订单状态
     if order.schedule == 1:
         return result_format(error_code=5110, message='订单已被接走,请联系驾驶员先取消订单.')
