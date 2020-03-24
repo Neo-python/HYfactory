@@ -1,11 +1,12 @@
 import datetime
-import json
 from flask import g, request
 from views import Order
 from views.business import api
 from forms.business import primary as forms
+from models.user import Driver
 from plugins.HYplugins.common.authorization import login
 from plugins.HYplugins.common import result_format, paginate_info
+from plugins import core_api
 
 
 @api.route('/order/list/')
@@ -51,7 +52,9 @@ def order_add():
     order.factory.save_contact(contact_name=order.contact_name, contact_phone=order.contact_phone,
                                longitude=order.longitude, latitude=order.latitude,
                                address=order.address, address_replenish=order.address_replenish)
-
+    driver_phone = [driver.phone for driver in Driver.query.filter_by(verify=1).all()]
+    core_api.batch_sms(template_id="488983", phone_list=driver_phone,
+                       params=[g.user.name, order.order_uuid])  # 通知驾驶员有新的订单
     return result_format(data={'order_id': order.id})
 
 
