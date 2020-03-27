@@ -13,6 +13,7 @@ from forms import user as forms
 @api.route('/sign_in/', methods=['POST'])
 def sign_in():
     """登录"""
+
     form = forms.SignInForm().validate_()
     #
     user = Factory.query.filter_by(open_id=form.open_id).first()
